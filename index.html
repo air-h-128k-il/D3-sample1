@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html prefix="og: http://ogp.me/ns#" lang="ja-JP">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-105711200-12"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-105711200-12');
+    </script>
+
+    <!--<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/ fb# prefix属性: http://ogp.me/ns/ prefix属性#">-->
+    <meta property="og:url" content="https://covid19-seir-model.netlify.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SEIR model simulator" />
+    <meta property="og:description" content="感染症の数理疫学モデル SEIR のシミュレーターです。β（実際にはR）を変化させると感染者数のカーブが変化します。" />     
+    <meta property="og:site_name" content="PHAZOR" />
+    <meta property="og:image" content="https://covid19-seir-model.netlify.com/resources/ogp.png" />
+    <meta property="twitter:card" content="summary_large_image">
+    <title>Map</title>
+    <!--<link href="./js/c3.css" rel="stylesheet">-->
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="./lib/d3.v5.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+
+    <style>
+      #map-container {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #ccc;
+      }
+    </style>
+</head>
+<body>
+    <div id="map-container"></div>
+    <h1>Map test</h1>
+    
+
+    <div>
+        <h2>使い方</h2>
+        <ul>
+            <li>test</li>
+            <li>test</li>
+        </ul>
+ 
+        <ul>
+            <li>This site: <a href="https://github.com/air-h-128k-il/seir-model">https://github.com/air-h-128k-il/seir-model</a></li>
+        </ul>
+    </div>
+</body>
+<script>
+  var target = d3.select("#map-container"); 
+//import * as d3 from "d3";
+
+// GeoJsonファイルを読み込み
+//import geoJson from "./japan.geo.json";
+
+async function main() {
+  const width = 400; // 描画サイズ: 幅
+  const height = 400; // 描画サイズ: 高さ
+  const centerPos = [137.0, 38.2]; // 地図のセンター位置
+  const scale = 1000; // 地図のスケール
+
+  // 地図の投影設定
+  const projection = d3
+    .geoMercator()
+    .center(centerPos)
+    .translate([width / 2, height / 2])
+    .scale(scale);
+
+  // 地図をpathに投影(変換)
+  const path = d3.geoPath().projection(projection);
+
+  // SVG要素を追加
+  const svg = d3
+    .select(`#map-container`)
+    .append(`svg`)
+    .attr(`viewBox`, `0 0 ${width} ${height}`)
+    .attr(`width`, `100%`)
+    .attr(`height`, `100%`);
+
+  // 
+  // [ メモ ]
+  // 動的にGeoJsonファイルを読み込む場合は以下のコードを使用
+  const geoJson = await d3.json(`./japan.geo.json`);
+  // 
+
+  // 都道府県の領域データをpathで描画
+  svg
+    .selectAll(`path`)
+    .data(geoJson.features)
+    .enter()
+    .append(`path`)
+    .attr(`d`, path)
+    .attr(`stroke`, `#666`)
+    .attr(`stroke-width`, 0.25)
+    .attr(`fill`, `#2566CC`)
+    //.attr(`fill-opacity`, (item: any) => {
+      // メモ
+      // item.properties.name_ja に都道府県名が入っている
+
+      // 透明度をランダムに指定する (0.0 - 1.0)
+      return Math.random();
+    //})
+
+
+}
+
+main();
+
+</script>
+</html>
