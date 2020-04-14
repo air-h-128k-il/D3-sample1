@@ -51,10 +51,12 @@
 async function main() {
   const width = 400; // 描画サイズ: 幅
   const height = 400; // 描画サイズ: 高さ
+  //position and scale
   //const centerPos = [138.8, 37.3]; // 地図のセンター位置　新潟
-  const centerPos = [139.7, 35.7]; // 地図のセンター位置　新潟
-  //const scale = 1000; // 地図のスケール
-  const scale = 4000; // 地図のスケール　新潟
+  const centerPos = [139.7, 35.7]; // 地図のセンター位置　関東
+  //const scale = 4000; // 地図のスケール　新潟
+  const scale = 5000; // 地図のスケール　関東
+  
   // 地図の投影設定
   const projection = d3
     .geoMercator()
